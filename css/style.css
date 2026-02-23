@@ -1,0 +1,73 @@
+:root {
+  --orange: #E8590C;
+  --orange-light: #FF7733;
+  --orange-dim: rgba(232,89,12,0.12);
+  --black: #0A0A0A;
+  --black-soft: #111111;
+  --black-card: #161616;
+  --black-border: #222222;
+  --white: #FFFFFF;
+  --white-mid: rgba(255,255,255,0.55);
+  --text-muted: #888888;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'Courier Prime', monospace;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --shadow-orange: 0 0 30px rgba(232,89,12,0.25);
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.accent { color: var(--orange); }
+
+/* ── Buttons ───────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.btn-primary { background: var(--orange); color: var(--white); }
+.btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); box-shadow: var(--shadow-orange); }
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+.btn-outline:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  transform: translateY(-2px);
+}
+
+/* Rest of your CSS remains exactly the same — just paste everything from <style> here */
+
+/* .navbar { ... } */
+.navbar {
+  background: red !important;
+}
+/* ... continue with ALL the rest of your original CSS ... */
+
+/* Make sure to include EVERYTHING that was inside <style> */

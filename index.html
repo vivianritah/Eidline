@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -402,5 +402,91 @@ navLinks.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{navLin
 const observer=new IntersectionObserver((entries)=>{entries.forEach((entry,i)=>{if(entry.isIntersecting){setTimeout(()=>entry.target.classList.add("visible"),i*80);observer.unobserve(entry.target)}})},{threshold:0.1});
 document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 </script>
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kampala Printers — Print. Scan. Deliver.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── NAVBAR ─────────────────────────────────────────────── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🖨</span>
+        <span class="logo-text">KAMPALA<span class="accent">PRINTERS</span></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#why-us">Why Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="https://wa.me/256740083880" target="_blank" class="nav-cta">WhatsApp Us</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero, Marquee, Services, Products, Why Us, Testimonials stay here -->
+  <!-- Copy everything from <header class="hero"> to </section> of testimonials -->
+
+  <!-- Just before the contact section, add link instead -->
+  <!-- Replace the whole <section class="contact-section" id="contact"> with: -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Get In Touch</span>
+        <h2 class="section-title">Ready to <span class="accent">Print?</span></h2>
+        <p class="section-sub">Visit our contact page for full details, map, and multiple ways to reach us</p>
+      </div>
+      <div style="text-align:center; padding: 60px 0;">
+        <a href="contact.html" class="btn btn-primary" style="font-size:18px; padding:18px 48px;">
+          Go to Contact Page →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (updated navigation link) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="logo-text">KAMPALA<span class="accent">PRINTERS</span></span>
+          <p>Your complete printing partner in the heart of Kampala...</p>
+          <!-- ... rest same ... -->
+        </div>
+        <div class="footer-links-group">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#products">Shop Products</a></li>
+            <li><a href="#why-us">Why Choose Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <!-- ... -->
+          </ul>
+        </div>
+        <!-- other columns... -->
+      </div>
+      <!-- footer-bottom same -->
+    </div>
+  </footer>
+
+  <!-- Modal, Floating WA, Scripts remain here -->
+  <!-- ... copy modal, float-wa, <script> ... -->
+
+  <script src="script.js"></script>
 </body>
 </html>
