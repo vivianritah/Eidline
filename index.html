@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kampala Printers — Print. Scan. Deliver.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange:#E8590C;--orange-light:#FF7733;--orange-dim:rgba(232,89,12,0.12);
+      --black:#0A0A0A;--black-soft:#111111;--black-card:#161616;--black-border:#222222;
+      --white:#FFFFFF;--white-mid:rgba(255,255,255,0.55);--text-muted:#888888;
+      --font-display:'Bebas Neue',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'Courier Prime',monospace;
+      --radius:12px;--radius-lg:20px;--shadow-orange:0 0 30px rgba(232,89,12,0.25);--transition:0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:16px;line-height:1.65;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}ul{list-style:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+    .accent{color:var(--orange)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:4px;font-family:var(--font-body);font-size:15px;font-weight:600;cursor:pointer;border:none;transition:var(--transition);white-space:nowrap}
+    .btn-primary{background:var(--orange);color:var(--white)}.btn-primary:hover{background:var(--orange-light);transform:translateY(-2px);box-shadow:var(--shadow-orange)}
+    .btn-outline{background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,0.3)}.btn-outline:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px)}
+    /* NAVBAR */
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 0;transition:var(--transition)}
+    .navbar.scrolled{background:rgba(10,10,10,0.96);backdrop-filter:blur(20px);padding:14px 0;border-bottom:1px solid var(--black-border)}
+    .nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+    .logo{display:flex;align-items:center;gap:10px}.logo-icon{font-size:22px}.logo-text{font-family:var(--font-display);font-size:22px;letter-spacing:1px}
+    .nav-links{display:flex;align-items:center;gap:32px}
+    .nav-links a{font-size:14px;font-weight:500;color:var(--white-mid);transition:var(--transition)}.nav-links a:hover{color:var(--white)}
+    .nav-cta{background:var(--orange)!important;color:var(--white)!important;padding:10px 20px;border-radius:4px;font-weight:600!important}.nav-cta:hover{background:var(--orange-light)!important}
+    .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:1000}
+    .hamburger span{display:block;width:24px;height:2px;background:var(--white);transition:var(--transition)}
+    /* HERO */
+    .hero{min-height:100vh;display:flex;align-items:center;padding:120px 24px 80px;max-width:1200px;margin:0 auto;position:relative;gap:60px}
+    .hero-bg-text{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-size:clamp(200px,30vw,420px);color:rgba(255,255,255,0.025);pointer-events:none;user-select:none;white-space:nowrap;z-index:0}
+    .hero-content{flex:1;position:relative;z-index:1}
+    .hero-eyebrow{font-family:var(--font-mono);font-size:13px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+    .hero-eyebrow::before{content:'';display:block;width:40px;height:1px;background:var(--orange)}
+    .hero-title{font-family:var(--font-display);font-size:clamp(64px,8vw,110px);line-height:0.9;margin-bottom:24px}
+    .hero-sub{font-size:17px;color:var(--white-mid);max-width:480px;margin-bottom:36px;line-height:1.7}
+    .hero-btns{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:60px}
+    .hero-stats{display:flex;gap:40px;border-top:1px solid var(--black-border);padding-top:32px}
+    .stat{display:flex;flex-direction:column}.stat-num{font-family:var(--font-display);font-size:42px;color:var(--orange);line-height:1}.stat-label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px}
+    /* HERO VISUAL */
+    .hero-visual{flex-shrink:0;display:flex;align-items:center;justify-content:center;z-index:1}
+    .printer-card-face{width:280px;height:280px;background:var(--black-card);border:1px solid var(--black-border);border-radius:var(--radius-lg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;animation:float 4s ease-in-out infinite;box-shadow:0 30px 80px rgba(0,0,0,0.6),var(--shadow-orange)}
+    @keyframes float{0%,100%{transform:translateY(0) rotateY(-5deg) rotateX(3deg)}50%{transform:translateY(-16px) rotateY(5deg) rotateX(-2deg)}}
+    .printer-body{position:relative;width:160px}
+    .printer-top{height:28px;background:#1a1a1a;border-radius:8px 8px 0 0;border:1px solid #333;margin:0 12px}
+    .printer-slot{height:12px;background:#0f0f0f;border-left:1px solid #333;border-right:1px solid #333;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .printer-paper{width:80px;height:60px;background:var(--white);margin-top:-60px;border-radius:1px;animation:paper-feed 3s ease-in-out infinite;position:relative}
+    .printer-paper::after{content:'';display:block;position:absolute;top:8px;left:10px;right:10px;height:2px;background:var(--orange);box-shadow:0 8px 0 #ccc,0 16px 0 var(--orange-dim),0 24px 0 #ccc}
+    @keyframes paper-feed{0%{margin-top:-60px}50%{margin-top:6px}100%{margin-top:-60px}}
+    .printer-front{height:80px;background:#1d1d1d;border-left:1px solid #333;border-right:1px solid #333;display:flex;align-items:center;gap:10px;padding:0 20px}
+    .printer-light{width:10px;height:10px;border-radius:50%;background:#333}.printer-light.on{background:var(--orange);box-shadow:0 0 8px var(--orange);animation:blink 2s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .printer-panel{flex:1;height:28px;background:#111;border-radius:4px;border:1px solid #2a2a2a}
+    .printer-base{height:14px;background:#1a1a1a;border-radius:0 0 6px 6px;border:1px solid #333;border-top:none;margin:0 4px}
+    .printer-card-label{font-family:var(--font-mono);font-size:12px;color:var(--orange);letter-spacing:2px;text-transform:uppercase}
+    .scroll-hint{position:absolute;bottom:40px;left:24px;display:flex;align-items:center;gap:12px;color:var(--text-muted);font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:var(--font-mono)}
+    .scroll-line{width:60px;height:1px;background:linear-gradient(to right,var(--text-muted),transparent);animation:slide 2s ease-in-out infinite}
+    @keyframes slide{0%{transform:scaleX(0);transform-origin:left}50%{transform:scaleX(1);transform-origin:left}51%{transform:scaleX(1);transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
+    /* MARQUEE */
+    .marquee-strip{background:var(--orange);padding:14px 0;overflow:hidden;white-space:nowrap}
+    .marquee-track{display:inline-flex;gap:32px;animation:marquee 25s linear infinite;font-family:var(--font-display);font-size:16px;letter-spacing:1px}
+    @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    /* SECTIONS */
+    .section-header{text-align:center;margin-bottom:56px}
+    .section-tag{font-family:var(--font-mono);font-size:12px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:12px}
+    .section-title{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);line-height:1;margin-bottom:16px}
+    .section-sub{color:var(--white-mid);font-size:16px;max-width:480px;margin:0 auto}
+    /* SERVICES */
+    .services-section{padding:100px 0;background:var(--black-soft)}
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .service-card{background:var(--black-card);border:1px solid var(--black-border);border-radius:var(--radius);padding:32px;transition:var(--transition);position:relative;overflow:hidden}
+    .service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--orange-dim),transparent 60%);opacity:0;transition:var(--transition)}
+    .service-card:hover{border-color:var(--orange);transform:translateY(-4px)}.service-card:hover::before{opacity:1}
+    .service-card.featured{border-color:var(--orange)}.service-card.featured::before{opacity:1}
+    .service-icon{font-size:36px;margin-bottom:16px}
+    .service-card h3{font-family:var(--font-display);font-size:24px;margin-bottom:10px}.service-card p{color:var(--white-mid);font-size:14px;line-height:1.7}
+    /* PRODUCTS */
+    .products-section{padding:100px 0;background:var(--black)}
+    .filter-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+    .filter-btn{padding:10px 24px;border-radius:100px;border:1.5px solid var(--black-border);background:transparent;color:var(--white-mid);font-family:var(--font-body);font-size:14px;font-weight:500;cursor:pointer;transition:var(--transition)}
+    .filter-btn:hover{border-color:var(--orange);color:var(--orange)}.filter-btn.active{background:var(--orange);border-color:var(--orange);color:var(--white)}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+    .product-card{background:var(--black-card);border:1px solid var(--black-border);border-radius:var(--radius);overflow:hidden;transition:var(--transition);display:flex;flex-direction:column;animation:fadeUp 0.5s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    .product-card:hover{border-color:var(--orange);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.4),var(--shadow-orange)}
+    .product-img-wrap{position:relative;height:200px;background:#111;display:flex;align-items:center;justify-content:center}
+    .product-emoji{font-size:80px;transition:transform 0.4s ease;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.4))}.product-card:hover .product-emoji{transform:scale(1.12) rotate(-4deg)}
+    .product-badge{position:absolute;top:14px;left:14px;background:var(--orange);color:var(--white);font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;letter-spacing:0.5px;text-transform:uppercase}
+    .product-body{padding:24px;flex:1;display:flex;flex-direction:column;gap:8px}
+    .product-category{font-family:var(--font-mono);font-size:11px;color:var(--orange);letter-spacing:2px;text-transform:uppercase}
+    .product-name{font-family:var(--font-display);font-size:22px;line-height:1.1}
+    .product-desc{font-size:13px;color:var(--white-mid);line-height:1.65;flex:1}
+    .product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--black-border)}
+    .product-price{font-family:var(--font-display);font-size:24px;color:var(--orange)}
+    .product-price small{font-family:var(--font-body);font-size:11px;color:var(--text-muted);display:block;font-weight:400}
+    .order-btn{background:var(--orange);color:var(--white);border:none;border-radius:4px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:6px}
+    .order-btn:hover{background:var(--orange-light);transform:scale(1.05)}
+    /* WHY US */
+    .why-us-section{padding:100px 0;background:var(--black-soft)}
+    .why-us-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .why-us-text .section-title,.why-us-text .section-tag{text-align:left}
+    .why-us-text>p{color:var(--white-mid);margin-bottom:28px}
+    .why-list{display:flex;flex-direction:column;gap:14px;margin-bottom:36px}.why-list li{display:flex;align-items:center;gap:12px;font-size:15px}
+    .check{width:24px;height:24px;background:var(--orange-dim);border:1px solid var(--orange);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--orange);font-size:13px;flex-shrink:0}
+    .why-us-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .trust-card{background:var(--black-card);border:1px solid var(--black-border);border-radius:var(--radius);padding:24px;transition:var(--transition)}.trust-card:hover{border-color:var(--orange)}
+    .trust-icon{font-size:28px;display:block;margin-bottom:12px}.trust-card h4{font-size:16px;font-weight:700;margin-bottom:6px}.trust-card p{font-size:13px;color:var(--white-mid);line-height:1.6}
+    /* TESTIMONIALS */
+    .testimonials-section{padding:100px 0;background:var(--black)}
+    .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+    .testimonial-card{background:var(--black-card);border:1px solid var(--black-border);border-radius:var(--radius);padding:32px;display:flex;flex-direction:column;gap:20px;transition:var(--transition)}
+    .testimonial-card:hover{border-color:rgba(232,89,12,0.4)}
+    .testimonial-card.featured{border-color:var(--orange);background:linear-gradient(135deg,var(--orange-dim) 0%,var(--black-card) 100%)}
+    .t-quote{font-size:15px;color:var(--white-mid);line-height:1.75;font-style:italic}
+    .t-author{display:flex;align-items:center;gap:14px}.t-avatar{width:44px;height:44px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+    .t-author strong{display:block;font-size:14px}.t-author span{font-size:12px;color:var(--text-muted)}.t-stars{color:var(--orange);font-size:14px;letter-spacing:2px}
+    /* CONTACT */
+    .contact-section{padding:100px 0;background:var(--black-soft)}
+    .contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+    .contact-info .section-title,.contact-info .section-tag{text-align:left}
+    .contact-details{display:flex;flex-direction:column;gap:28px;margin:32px 0 36px}
+    .contact-item{display:flex;align-items:flex-start;gap:16px}.c-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+    .contact-item strong{display:block;font-weight:600;margin-bottom:4px}.contact-item p{color:var(--white-mid);font-size:14px;line-height:1.7}
+    .contact-map{background:var(--black-card);border:1px solid var(--black-border);border-radius:var(--radius-lg);min-height:360px;display:flex;align-items:center;justify-content:center}
+    .map-placeholder{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+    .map-pin-anim{font-size:52px;animation:bounce 2s ease-in-out infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    .map-placeholder p{font-size:16px;font-weight:600}.map-placeholder span{font-size:13px;color:var(--text-muted)}
+    /* FOOTER */
+    .footer{background:var(--black);border-top:1px solid var(--black-border);padding-top:60px}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid var(--black-border)}
+    .footer-brand .logo-text{font-family:var(--font-display);font-size:24px;display:block;margin-bottom:16px}
+    .footer-brand p{color:var(--white-mid);font-size:14px;line-height:1.7;max-width:280px;margin-bottom:20px}
+    .social-links{display:flex;gap:12px}.social-links a{width:36px;height:36px;background:var(--black-card);border:1px solid var(--black-border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:var(--transition)}.social-links a:hover{border-color:var(--orange)}
+    .footer-links-group h4{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--white-mid);margin-bottom:20px}
+    .footer-links-group ul{display:flex;flex-direction:column;gap:12px}.footer-links-group li,.footer-links-group a{font-size:14px;color:var(--text-muted);transition:var(--transition)}.footer-links-group a:hover{color:var(--orange)}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-size:13px;color:var(--text-muted)}
+    .footer-tagline{font-family:var(--font-mono)}
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;padding:24px}
+    .modal-overlay.active{opacity:1;pointer-events:all}
+    .modal{background:var(--black-card);border:1px solid var(--black-border);border-radius:var(--radius-lg);padding:40px;max-width:440px;width:100%;text-align:center;transform:scale(0.9);transition:transform 0.3s;position:relative;display:flex;flex-direction:column;gap:16px}
+    .modal-overlay.active .modal{transform:scale(1)}
+    .modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:none;color:var(--white);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px;transition:var(--transition)}.modal-close:hover{background:var(--orange)}
+    .modal-icon{font-size:48px}.modal h3{font-family:var(--font-display);font-size:28px}.modal-price{color:var(--orange);font-family:var(--font-display);font-size:32px}.modal-msg{color:var(--white-mid);font-size:14px;line-height:1.65}
+    /* FLOAT WA */
+    .float-wa{position:fixed;bottom:28px;right:28px;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,211,102,0.4);z-index:999;animation:pulse-wa 3s ease infinite;transition:transform 0.2s}.float-wa:hover{transform:scale(1.1)}
+    @keyframes pulse-wa{0%,100%{box-shadow:0 4px 24px rgba(37,211,102,0.4)}50%{box-shadow:0 4px 40px rgba(37,211,102,0.7)}}
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+    /* RESPONSIVE */
+    @media(max-width:1024px){.footer-top{grid-template-columns:1fr 1fr}.why-us-inner{grid-template-columns:1fr;gap:48px}.contact-inner{grid-template-columns:1fr}}
+    @media(max-width:768px){
+      .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--black-soft);flex-direction:column;justify-content:center;align-items:center;gap:36px;z-index:999}
+      .nav-links.open{display:flex}.nav-links a{font-size:20px}.hamburger{display:flex}
+      .hero{flex-direction:column;padding:120px 24px 60px;text-align:center}.hero-eyebrow{justify-content:center}.hero-btns{justify-content:center}.hero-stats{justify-content:center}.hero-visual,.scroll-hint{display:none}
+      .footer-top{grid-template-columns:1fr}.footer-bottom{flex-direction:column;gap:8px;text-align:center}.why-us-cards{grid-template-columns:1fr}
+    }
+    @media(max-width:480px){.products-grid,.testimonials-grid,.services-grid{grid-template-columns:1fr}.hero-stats{flex-direction:column;gap:20px;align-items:center}}
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo"><span class="logo-icon">🖨</span><span class="logo-text">KAMPALA<span class="accent">PRINTERS</span></span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#why-us">Why Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://wa.me/256740083880" target="_blank" class="nav-cta">WhatsApp Us</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="hero" id="home">
+  <div class="hero-bg-text">PRINT</div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Kampala's #1 Printing Hub</p>
+    <h1 class="hero-title">We Print.<br>We Scan.<br>We <span class="accent">Deliver.</span></h1>
+    <p class="hero-sub">Printers, Scanners, Repairs, Cartridge Refilling &amp; Accessories — all under one roof in Kampala.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn btn-primary">Shop Products</a>
+      <a href="https://wa.me/256740083880" target="_blank" class="btn btn-outline">Chat on WhatsApp</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Products</span></div>
+      <div class="stat"><span class="stat-num">8+</span><span class="stat-label">Years Active</span></div>
+      <div class="stat"><span class="stat-num">2000+</span><span class="stat-label">Happy Clients</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="printer-card-face">
+      <div class="printer-body">
+        <div class="printer-top"></div>
+        <div class="printer-slot"><div class="printer-paper"></div></div>
+        <div class="printer-front"><div class="printer-light on"></div><div class="printer-light"></div><div class="printer-panel"></div></div>
+        <div class="printer-base"></div>
+      </div>
+      <p class="printer-card-label">In Stock Now</p>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+</header>
+
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span>🖨 Laser Printers</span><span>•</span><span>📠 Inkjet Printers</span><span>•</span><span>🖊 Cartridge Refilling</span><span>•</span><span>🔧 Repairs &amp; Maintenance</span><span>•</span><span>📡 Scanners</span><span>•</span><span>🗂 Printer Accessories</span><span>•</span>
+    <span>🖨 Laser Printers</span><span>•</span><span>📠 Inkjet Printers</span><span>•</span><span>🖊 Cartridge Refilling</span><span>•</span><span>🔧 Repairs &amp; Maintenance</span><span>•</span><span>📡 Scanners</span><span>•</span><span>🗂 Printer Accessories</span><span>•</span>
+  </div>
+</div>
+
+<section class="services-section" id="services">
+  <div class="container">
+    <div class="section-header"><span class="section-tag">What We Do</span><h2 class="section-title">Our <span class="accent">Services</span></h2><p class="section-sub">Everything you need for your printing ecosystem</p></div>
+    <div class="services-grid">
+      <div class="service-card reveal"><div class="service-icon">🖨</div><h3>Printer Sales</h3><p>Brand-new inkjet and laser printers from HP, Canon, Epson, Brother and more — sourced and verified.</p></div>
+      <div class="service-card reveal"><div class="service-icon">📡</div><h3>Scanner Sales</h3><p>Flatbed, sheetfed, and portable scanners for offices, homes, and document-heavy operations.</p></div>
+      <div class="service-card featured reveal"><div class="service-icon">🔧</div><h3>Repair &amp; Maintenance</h3><p>Certified technicians fix paper jams, driver errors, and hardware faults. Scheduled maintenance plans available.</p></div>
+      <div class="service-card reveal"><div class="service-icon">🖊</div><h3>Cartridge Refilling</h3><p>Affordable ink and toner refills for all major brands. Fast turnaround — same day service available.</p></div>
+      <div class="service-card reveal"><div class="service-icon">🗂</div><h3>Printer Accessories</h3><p>USB cables, paper trays, roller kits, drum units, and everything your printer might ever need.</p></div>
+      <div class="service-card reveal"><div class="service-icon">🚚</div><h3>Delivery in Kampala</h3><p>We deliver your order right to your doorstep anywhere within Kampala and surrounding areas.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="products-section" id="products">
+  <div class="container">
+    <div class="section-header"><span class="section-tag">Shop</span><h2 class="section-title">Our <span class="accent">Products</span></h2><p class="section-sub">Click any product to order instantly via WhatsApp</p></div>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="printer">Printers</button>
+      <button class="filter-btn" data-filter="scanner">Scanners</button>
+      <button class="filter-btn" data-filter="cartridge">Cartridges</button>
+      <button class="filter-btn" data-filter="accessory">Accessories</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</section>
+
+<section class="why-us-section" id="why-us">
+  <div class="container">
+    <div class="why-us-inner">
+      <div class="why-us-text">
+        <span class="section-tag">Why Choose Us</span>
+        <h2 class="section-title">Trusted by<br><span class="accent">Kampala</span> businesses</h2>
+        <p>From small offices to large enterprises, Kampala Printers has been the go-to partner for all printing needs since 2016.</p>
+        <ul class="why-list">
+          <li><span class="check">✓</span> Genuine products with warranty</li>
+          <li><span class="check">✓</span> Same-day repair service</li>
+          <li><span class="check">✓</span> Competitive &amp; transparent pricing</li>
+          <li><span class="check">✓</span> Expert advice — free of charge</li>
+          <li><span class="check">✓</span> After-sales support &amp; follow-up</li>
+        </ul>
+        <a href="https://wa.me/256740083880" target="_blank" class="btn btn-primary">Talk to an Expert</a>
+      </div>
+      <div class="why-us-cards">
+        <div class="trust-card reveal"><span class="trust-icon">⚡</span><h4>Fast Service</h4><p>Same-day repairs and cartridge refills available</p></div>
+        <div class="trust-card reveal"><span class="trust-icon">🛡</span><h4>Warranty Backed</h4><p>All products come with manufacturer's warranty</p></div>
+        <div class="trust-card reveal"><span class="trust-icon">💬</span><h4>WhatsApp Support</h4><p>Instant support on WhatsApp any time of day</p></div>
+        <div class="trust-card reveal"><span class="trust-icon">💰</span><h4>Best Prices</h4><p>Price-match guarantee on all listed products</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-header"><span class="section-tag">Reviews</span><h2 class="section-title">What Our <span class="accent">Clients</span> Say</h2></div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal"><p class="t-quote">"Bought an HP LaserJet and got delivery within 2 hours. Excellent service and pricing!"</p><div class="t-author"><div class="t-avatar">JM</div><div><strong>James Mukasa</strong><span>Business Owner, Ntinda</span></div></div><div class="t-stars">★★★★★</div></div>
+      <div class="testimonial-card featured reveal"><p class="t-quote">"Our office printer broke down and they fixed it the same afternoon. These guys are lifesavers."</p><div class="t-author"><div class="t-avatar">RN</div><div><strong>Ruth Nakato</strong><span>Office Manager, Kololo</span></div></div><div class="t-stars">★★★★★</div></div>
+      <div class="testimonial-card reveal"><p class="t-quote">"Cartridge refilling is super cheap and works perfectly. Won't go anywhere else!"</p><div class="t-author"><div class="t-avatar">PO</div><div><strong>Peter Ochieng</strong><span>Freelancer, Wandegeya</span></div></div><div class="t-stars">★★★★★</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info">
+        <span class="section-tag">Get In Touch</span>
+        <h2 class="section-title">Visit Us or <span class="accent">Order Online</span></h2>
+        <div class="contact-details">
+          <div class="contact-item reveal"><span class="c-icon">📍</span><div><strong>Location</strong><p>Kampala Road, Plot 14, Equatorial Mall<br>Kampala, Uganda</p></div></div>
+          <div class="contact-item reveal"><span class="c-icon">📞</span><div><strong>Phone / WhatsApp</strong><p>+256 700 000 000<br>+256 780 000 000</p></div></div>
+          <div class="contact-item reveal"><span class="c-icon">✉</span><div><strong>Email</strong><p>info@kampalaprinters.ug</p></div></div>
+          <div class="contact-item reveal"><span class="c-icon">⏰</span><div><strong>Working Hours</strong><p>Mon – Sat: 8:00 AM – 7:00 PM<br>Sunday: 10:00 AM – 4:00 PM</p></div></div>
+        </div>
+        <a href="https://wa.me/256740083880" target="_blank" class="btn btn-primary" style="font-size:16px;padding:16px 36px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Start WhatsApp Chat
+        </a>
+      </div>
+      <div class="contact-map">
+        <div class="map-placeholder"><div class="map-pin-anim">📍</div><p>Kampala Road, Equatorial Mall</p><span>Kampala, Uganda</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo-text">KAMPALA<span class="accent">PRINTERS</span></span>
+        <p>Your complete printing partner in the heart of Kampala. Quality products, expert service, unbeatable prices.</p>
+        <div class="social-links">
+          <a href="https://wa.me/256740083880" target="_blank" title="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+          <a href="tel:+256740083880" title="Call">📞</a>
+          <a href="mailto:info@kampalaprinters.ug" title="Email">✉</a>
+        </div>
+      </div>
+      <div class="footer-links-group"><h4>Services</h4><ul><li><a href="#services">Printer Sales</a></li><li><a href="#services">Scanner Sales</a></li><li><a href="#services">Repair &amp; Maintenance</a></li><li><a href="#services">Cartridge Refilling</a></li><li><a href="#services">Accessories</a></li></ul></div>
+      <div class="footer-links-group"><h4>Quick Links</h4><ul><li><a href="#products">Shop Products</a></li><li><a href="#why-us">Why Choose Us</a></li><li><a href="#contact">Contact Us</a></li><li><a href="https://wa.me/256700000000" target="_blank">WhatsApp Order</a></li></ul></div>
+      <div class="footer-links-group"><h4>Brands We Carry</h4><ul><li>HP</li><li>Canon</li><li>Epson</li><li>Brother</li><li>Samsung</li><li>Xerox</li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2024 Kampala Printers. All rights reserved.</p><p class="footer-tagline">Made with ❤ in Kampala, Uganda 🇺🇬</p></div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-icon">🛒</div>
+    <h3 id="modalTitle"></h3>
+    <p id="modalPrice" class="modal-price"></p>
+    <p class="modal-msg">You're about to order via WhatsApp. Our team will confirm availability and arrange delivery.</p>
+    <a href="#" id="modalWA" target="_blank" class="btn btn-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Confirm Order on WhatsApp
+    </a>
+    <button class="btn btn-outline" id="modalCancel">Cancel</button>
+  </div>
+</div>
+
+<a href="https://wa.me/256740083880" target="_blank" class="float-wa" title="Chat on WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const WA_NUMBER="256740083880";
+const products=[
+  {id:1,name:"HP LaserJet Pro M404n",category:"printer",label:"Laser Printer",emoji:"🖨",price:980000,badge:"Best Seller",desc:"High-speed monochrome laser printer. 38 ppm, USB & Ethernet. Auto-duplex, 1200 dpi. Ideal for busy offices."},
+  {id:2,name:"Epson EcoTank L3250",category:"printer",label:"Inkjet Printer",emoji:"🖨",price:620000,badge:"Popular",desc:"Ultra-low cost inkjet with refillable tanks. Wi-Fi, 3-in-1 print/copy/scan. Perfect for homes and small businesses."},
+  {id:3,name:"Canon PIXMA G3470",category:"printer",label:"Inkjet Printer",emoji:"🖨",price:560000,badge:null,desc:"High-volume, low-cost printing. Refillable ink tanks, wireless printing, vivid color output for photos and documents."},
+  {id:4,name:"Brother DCP-L2540DW",category:"printer",label:"Laser Printer",emoji:"🖨",price:750000,badge:"New Arrival",desc:"Monochrome laser multi-function center. Print, scan, copy with Wi-Fi and automatic 2-sided printing."},
+  {id:5,name:"HP Color LaserJet Pro",category:"printer",label:"Color Laser",emoji:"🖨",price:1450000,badge:"Premium",desc:"Professional-grade color laser printer. 21 ppm, 1200 dpi, touchscreen. Handles heavy workloads effortlessly."},
+  {id:6,name:"Canon CanoScan LiDE 400",category:"scanner",label:"Flatbed Scanner",emoji:"📡",price:380000,badge:"Best Value",desc:"Slim, fast flatbed scanner. 4800 dpi resolution, USB powered, 5 EZ buttons. Perfect for documents and photos."},
+  {id:7,name:"Epson WorkForce DS-570W",category:"scanner",label:"Document Scanner",emoji:"📡",price:1200000,badge:null,desc:"High-speed duplex document scanner with Wi-Fi. 35 ppm, ADF, scans direct to cloud."},
+  {id:8,name:"HP ScanJet Pro 2500 f1",category:"scanner",label:"Flatbed Scanner",emoji:"📡",price:850000,badge:null,desc:"Professional flatbed scanner with ADF. 1200 dpi optical resolution, one-touch scanning, fast USB 3.0."},
+  {id:9,name:"HP 678 Black Ink Cartridge",category:"cartridge",label:"Ink Cartridge",emoji:"🖊",price:85000,badge:null,desc:"Genuine HP 678 black ink. Prints up to 480 pages. Compatible with HP Deskjet 1015, 1515, 2515 and more."},
+  {id:10,name:"Epson 003 Ink Set (4 Colors)",category:"cartridge",label:"Ink Set",emoji:"🖊",price:150000,badge:"Popular",desc:"Complete 4-color Epson 003 bottle set. For EcoTank L3150, L3250, L5290."},
+  {id:11,name:"Canon PG-745 / CL-746 Combo",category:"cartridge",label:"Cartridge Combo",emoji:"🖊",price:130000,badge:null,desc:"Canon 745/746 combo — black and color. Compatible with PIXMA iP2870, MG2570, MG2970, MX497."},
+  {id:12,name:"HP 85A Toner Cartridge",category:"cartridge",label:"Toner Cartridge",emoji:"🖊",price:195000,badge:"New Arrival",desc:"Genuine HP CE285A toner. Up to 1,600 pages. For HP LaserJet P1102, P1102w, M1132, M1212nf."},
+  {id:13,name:"USB Printer Cable (3M)",category:"accessory",label:"Cable",emoji:"🔌",price:15000,badge:null,desc:"High-quality USB 2.0 Type A to B cable. 3 metres, shielded for reliable data transfer. Universal fit."},
+  {id:14,name:"A4 Premium Paper (500 Sheets)",category:"accessory",label:"Paper",emoji:"📄",price:25000,badge:"Hot Deal",desc:"80gsm A4 copy paper. Smooth finish for laser and inkjet printers. 500 sheets per ream."},
+  {id:15,name:"Printer Maintenance Kit",category:"accessory",label:"Maintenance",emoji:"🔧",price:120000,badge:null,desc:"Full kit: cleaning cloths, anti-static brush, isopropyl wipes, and compressed air. Keeps your printer healthy."},
+  {id:16,name:"HP LaserJet Drum Unit",category:"accessory",label:"Drum Unit",emoji:"⚙",price:280000,badge:null,desc:"Replacement drum for HP LaserJet series. Up to 12,000 page yield. Restores print quality."},
+];
+function fmt(n){return"UGX "+n.toLocaleString("en-UG")}
+function waLink(p){return`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hello Kampala Printers! 👋\n\nI'd like to order:\n\n🛒 *${p.name}*\n💰 Price: ${fmt(p.price)}\n\nPlease confirm availability and delivery. Thank you!`)}`}
+const grid=document.getElementById("productsGrid");
+function render(filter){
+  const list=filter==="all"?products:products.filter(p=>p.category===filter);
+  grid.innerHTML="";
+  list.forEach((p,i)=>{
+    const card=document.createElement("div");
+    card.className="product-card";card.style.animationDelay=`${i*55}ms`;
+    card.innerHTML=`<div class="product-img-wrap"><div class="product-emoji">${p.emoji}</div>${p.badge?`<span class="product-badge">${p.badge}</span>`:""}</div><div class="product-body"><span class="product-category">${p.label}</span><h3 class="product-name">${p.name}</h3><p class="product-desc">${p.desc}</p><div class="product-footer"><div class="product-price">${fmt(p.price)}<small>Incl. VAT</small></div><button class="order-btn" data-id="${p.id}">🛒 Order</button></div></div>`;
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll(".order-btn").forEach(btn=>btn.addEventListener("click",()=>openModal(products.find(x=>x.id==btn.dataset.id))));
+}
+render("all");
+document.querySelectorAll(".filter-btn").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");render(btn.dataset.filter);
+}));
+const modal=document.getElementById("orderModal");
+function openModal(p){document.getElementById("modalTitle").textContent=p.name;document.getElementById("modalPrice").textContent=fmt(p.price);document.getElementById("modalWA").href=waLink(p);modal.classList.add("active");document.body.style.overflow="hidden"}
+function closeModal(){modal.classList.remove("active");document.body.style.overflow=""}
+document.getElementById("modalClose").addEventListener("click",closeModal);
+document.getElementById("modalCancel").addEventListener("click",closeModal);
+modal.addEventListener("click",e=>{if(e.target===modal)closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+window.addEventListener("scroll",()=>document.getElementById("navbar").classList.toggle("scrolled",scrollY>60));
+const hamburger=document.getElementById("hamburger"),navLinks=document.getElementById("navLinks");
+hamburger.addEventListener("click",()=>{
+  navLinks.classList.toggle("open");const open=navLinks.classList.contains("open");const s=hamburger.querySelectorAll("span");
+  s[0].style.transform=open?"rotate(45deg) translate(5px,5px)":"";s[1].style.opacity=open?"0":"";s[2].style.transform=open?"rotate(-45deg) translate(5px,-5px)":"";
+});
+navLinks.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{navLinks.classList.remove("open");hamburger.querySelectorAll("span").forEach(s=>{s.style.transform="";s.style.opacity=""})}));
+const observer=new IntersectionObserver((entries)=>{entries.forEach((entry,i)=>{if(entry.isIntersecting){setTimeout(()=>entry.target.classList.add("visible"),i*80);observer.unobserve(entry.target)}})},{threshold:0.1});
+document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
