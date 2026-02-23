@@ -762,6 +762,14 @@ img { max-width: 100%; display: block; }
 }
 .footer-tagline { font-family: var(--font-mono); }
 
+
+@media (max-width: 768px) {
+  .footer-links-group a {
+    font-size: 15px;
+    padding: 8px 0;
+  }
+}
+
 /* ======= MODAL ======= */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 2000;
@@ -870,4 +878,86 @@ img { max-width: 100%; display: block; }
   .testimonials-grid { grid-template-columns: 1fr; }
   .services-grid { grid-template-columns: 1fr; }
   .hero-stats { flex-direction: column; gap: 20px; }
+}
+
+
+/* ── MOBILE BOTTOM NAV ─────────────────────────────────────────────── */
+.mobile-bottom-nav {
+  display: none;                           /* Hidden by default (desktop) */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--black-card);
+  border-top: 1px solid var(--black-border);
+  z-index: 999;
+  padding: 8px 0;
+  box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
+}
+
+.bottom-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--white-mid);
+  font-size: 11px;
+  text-decoration: none;
+  transition: var(--transition);
+  padding: 6px 4px;
+}
+
+.bottom-item .bottom-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.bottom-item .bottom-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+.bottom-item:hover,
+.bottom-item.active {
+  color: var(--orange);
+}
+
+.wa-item .bottom-icon {
+  color: #25D366;                        /* WhatsApp green highlight */
+}
+
+/* Show bottom nav + hide desktop nav & hamburger on mobile */
+@media (max-width: 768px) {
+  .nav-inner .desktop-nav,
+  .hamburger {
+    display: none !important;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+  }
+
+  /* Give body padding so content isn't hidden under bottom bar */
+  body {
+    padding-bottom: 70px;               /* ≈ height of bottom nav */
+  }
+
+  /* Optional: make hero/content start lower if needed */
+  .hero {
+    padding-top: 100px;                 /* Adjust based on your navbar height */
+  }
+}
+
+/* Very small screens — make icons/labels even tighter */
+@media (max-width: 480px) {
+  .bottom-item {
+    font-size: 10px;
+  }
+  .bottom-item .bottom-icon {
+    font-size: 20px;
+  }
+  body {
+    padding-bottom: 65px;
+  }
 }

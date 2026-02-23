@@ -422,23 +422,52 @@ document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 
   <!-- ── NAVBAR ─────────────────────────────────────────────── -->
   <nav class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a href="index.html" class="logo">
-        <span class="logo-icon">🖨</span>
-        <span class="logo-text">KAMPALA<span class="accent">PRINTERS</span></span>
-      </a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#services">Services</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#why-us">Why Us</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="https://wa.me/256740083880" target="_blank" class="nav-cta">WhatsApp Us</a></li>
-      </ul>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
+  <div class="nav-inner">
+    <!-- Logo always visible -->
+    <a href="index.html" class="logo">
+      <span class="logo-icon">🖨</span>
+      <span class="logo-text">KAMPALA<span class="accent">PRINTERS</span></span>
+    </a>
+
+    <!-- Desktop / large screen links (hidden on mobile) -->
+    <ul class="nav-links desktop-nav" id="navLinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#why-us">Why Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="https://wa.me/256740083880" target="_blank" class="nav-cta">WhatsApp Us</a></li>
+    </ul>
+
+    <!-- Hamburger for fallback / very small screens if needed -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── NEW: Mobile Bottom Nav ─────────────────────────────────────── -->
+<nav class="mobile-bottom-nav">
+  <a href="#services" class="bottom-item">
+    <span class="bottom-icon">🛠</span>
+    <span class="bottom-label">Services</span>
+  </a>
+  <a href="#products" class="bottom-item">
+    <span class="bottom-icon">🖨</span>
+    <span class="bottom-label">Products</span>
+  </a>
+  <a href="#why-us" class="bottom-item">
+    <span class="bottom-icon">⭐</span>
+    <span class="bottom-label">Why Us</span>
+  </a>
+  <a href="contact.html" class="bottom-item">
+    <span class="bottom-icon">📞</span>
+    <span class="bottom-label">Contact</span>
+  </a>
+  <a href="https://wa.me/256740083880" target="_blank" class="bottom-item wa-item">
+    <span class="bottom-icon">💬</span>
+    <span class="bottom-label">Chat</span>
+  </a>
+</nav>
 
   <!-- Hero, Marquee, Services, Products, Why Us, Testimonials stay here -->
   <!-- Copy everything from <header class="hero"> to </section> of testimonials -->
